@@ -3,18 +3,18 @@
 ## Installation ##
 
     # install the library:
-    go get github.com/Nitron/go-cgminer-api
+    go get github.com/gOsToFf/go-cgminer-api
 
     // Use in your .go code:
     import (
-        "github.com/Nitron/go-cgminer-api"
+        "github.com/gOsToFf/go-cgminer-api"
     )
 
 ## API Documentation ##
 
 Full godoc output from the latest code in master is available here:
 
-http://godoc.org/github.com/Nitron/go-cgminer-api
+https://godoc.org/github.com/gOsToFf/go-cgminer-api
 
 ## Quickstart ##
 
@@ -22,7 +22,7 @@ http://godoc.org/github.com/Nitron/go-cgminer-api
 package main
 
 import (
-    "github.com/Nitron/go-cgminer-api"
+    "github.com/gOsToFf/go-cgminer-api"
     "log"
 )
 
