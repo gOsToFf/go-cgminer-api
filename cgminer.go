@@ -48,35 +48,64 @@ type Summary struct {
 	WorkUtility            float64 `json:"Work Utility"`
 }
 
+type statsTempResponse struct {
+	StatsSum []byte  `json:"SUMMARY"`
+	Stats    []Stats `json:"SUMMARY"`
+}
+
+type statsResponse struct {
+	Status []status `json:"STATUS"`
+	Stats  []Stats  `json:"STATS"`
+	Id     int64    `json:"id"`
+}
+
+type Stats struct {
+	Stats     int64  `json:"STATS"`
+	Id        string `json:"ID"`
+	Elapsed   int64
+	Ghs5s     string  `json:"GHS 5s"`
+	Ghsav     float64 `json:"GHS av"`
+	Frequency string  `json:"frequency"`
+	Temp6     float64
+	Temp7     float64
+	Temp8     float64
+	Temp26    float64 `json:"temp2_6"`
+	Temp27    float64 `json:"temp2_7"`
+	Temp28    float64 `json:"temp2_8"`
+	ChanRate6 string  `json:"chain_rate6"`
+	ChanRate7 string  `json:"chain_rate7"`
+	ChanRate8 string  `json:"chain_rate8"`
+}
+
 type Devs struct {
-	GPU                    int64
-	Enabled                string
-	Status                 string
-	Temperature            float64
-	FanSpeed               int     `json:"Fan Speed"`
-	FanPercent             int64   `json:"Fan Percent"`
-	GPUClock               int64   `json:"GPU Clock"`
-	MemoryClock            int64   `json:"Memory Clock"`
-	GPUVoltage            float64 `json:"GPU Voltage"`
-	Powertune              int64
-	MHSav                  float64 `json:"MHS av"`
-	MHS5s                  float64 `json:"MHS 5s"`
-	Accepted               int64
-	Rejected               int64
-	HardwareErrors         int64   `json:"Hardware Errors"`
-	Utility                float64
-	Intensity              string
-	LastSharePool          int64   `json:"Last Share Pool"`
-	LashShareTime          int64   `json:"Lash Share Time"`
-	TotalMH                float64 `json:"TotalMH"`
-	Diff1Work              int64   `json:"Diff1 Work"`
-	DifficultyAccepted     float64 `json:"Difficulty Accepted"`
-	DifficultyRejected     float64 `json:"Difficulty Rejected"`
-	LastShareDifficulty    float64 `json:"Last Share Difficulty"`
-	LastValidWork          int64   `json:"Last Valid Work"`
-	DeviceHardware         float64 `json:"Device Hardware%"`
-	DeviceRejected         float64 `json:"Device Rejected%"`
-	DeviceElapsed          int64   `json:"Device Elapsed"`
+	GPU                 int64
+	Enabled             string
+	Status              string
+	Temperature         float64
+	FanSpeed            int     `json:"Fan Speed"`
+	FanPercent          int64   `json:"Fan Percent"`
+	GPUClock            int64   `json:"GPU Clock"`
+	MemoryClock         int64   `json:"Memory Clock"`
+	GPUVoltage          float64 `json:"GPU Voltage"`
+	Powertune           int64
+	MHSav               float64 `json:"MHS av"`
+	MHS5s               float64 `json:"MHS 5s"`
+	Accepted            int64
+	Rejected            int64
+	HardwareErrors      int64 `json:"Hardware Errors"`
+	Utility             float64
+	Intensity           string
+	LastSharePool       int64   `json:"Last Share Pool"`
+	LashShareTime       int64   `json:"Lash Share Time"`
+	TotalMH             float64 `json:"TotalMH"`
+	Diff1Work           int64   `json:"Diff1 Work"`
+	DifficultyAccepted  float64 `json:"Difficulty Accepted"`
+	DifficultyRejected  float64 `json:"Difficulty Rejected"`
+	LastShareDifficulty float64 `json:"Last Share Difficulty"`
+	LastValidWork       int64   `json:"Last Valid Work"`
+	DeviceHardware      float64 `json:"Device Hardware%"`
+	DeviceRejected      float64 `json:"Device Rejected%"`
+	DeviceElapsed       int64   `json:"Device Elapsed"`
 }
 
 type Pool struct {
@@ -119,9 +148,9 @@ type summaryResponse struct {
 }
 
 type devsResponse struct {
-	Status  []status  `json:"STATUS"`
-	Devs    []Devs    `json:"DEVS"`
-	Id      int64     `json:"id"`
+	Status []status `json:"STATUS"`
+	Devs   []Devs   `json:"DEVS"`
+	Id     int64    `json:"id"`
 }
 
 type poolsResponse struct {
@@ -193,6 +222,28 @@ func (miner *CGMiner) Devs() (*[]Devs, error) {
 
 	var devs = devsResponse.Devs
 	return &devs, err
+}
+
+// Summary returns basic information on the miner. See the Summary struct.
+func (miner *CGMiner) Stats() (*Stats, error) {
+	result, err := miner.runCommand("stats", "")
+	if err != nil {
+		return nil, err
+	}
+
+	var statsResponse statsResponse
+	err = json.Unmarshal([]byte(result), &statsResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(statsResponse.Stats) != 1 {
+		var stats = statsResponse.Stats[1]
+		return &stats, err
+	}
+
+	var stats = statsResponse.Stats[0]
+	return &stats, err
 }
 
 // Summary returns basic information on the miner. See the Summary struct.

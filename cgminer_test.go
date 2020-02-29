@@ -5,13 +5,28 @@ import (
 	"testing"
 )
 
+const ipAddress = "127.0.0.1"
+
 // WARNING: These tests are currently terrible, and require a setup such as mine
 // (I'm connecting to a real cgminer instance running on a different machine).
 // Once I figure out how to mock things out, these tests should improve substantially.
 // For now they're more of just a convenient scratch area for manual testing.
 
+func Test_Stats(t *testing.T) {
+	miner := New(ipAddress, 4028)
+	stats, err := miner.Stats()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if stats == nil {
+		t.Error("Stats returned nil")
+		return
+	}
+}
+
 func Test_Summary(t *testing.T) {
-	miner := New("127.0.0.1", 4028)
+	miner := New(ipAddress, 4028)
 	summary, err := miner.Summary()
 	if err != nil {
 		t.Error(err)
@@ -25,7 +40,7 @@ func Test_Summary(t *testing.T) {
 }
 
 func Test_Devs(t *testing.T) {
-	miner := New("127.0.0.1", 4028)
+	miner := New(ipAddress, 4028)
 	devs, err := miner.Devs()
 	if err != nil {
 		t.Error(err)
@@ -41,7 +56,7 @@ func Test_Devs(t *testing.T) {
 }
 
 func Test_Pools(t *testing.T) {
-	miner := New("127.0.0.1", 4028)
+	miner := New(ipAddress, 4028)
 	pools, err := miner.Pools()
 	if err != nil {
 		t.Error(err)
