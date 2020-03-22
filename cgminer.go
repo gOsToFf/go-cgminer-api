@@ -60,21 +60,22 @@ type statsResponse struct {
 }
 
 type Stats struct {
-	Stats     int64  `json:"STATS"`
-	Id        string `json:"ID"`
-	Elapsed   int64
-	Ghs5s     string  `json:"GHS 5s"`
-	Ghsav     float64 `json:"GHS av"`
-	Frequency string  `json:"frequency"`
-	Temp6     float64
-	Temp7     float64
-	Temp8     float64
-	Temp26    float64 `json:"temp2_6"`
-	Temp27    float64 `json:"temp2_7"`
-	Temp28    float64 `json:"temp2_8"`
-	ChanRate6 string  `json:"chain_rate6"`
-	ChanRate7 string  `json:"chain_rate7"`
-	ChanRate8 string  `json:"chain_rate8"`
+	Elapsed        int64
+	Ghs5s          string  `json:"GHS 5s"`
+	Ghsav          float64 `json:"GHS av"`
+	Frequency      string  `json:"frequency"`
+	Temp6          float64
+	Temp7          float64
+	Temp8          float64
+	Temp26         float64 `json:"temp2_6"`
+	Temp27         float64 `json:"temp2_7"`
+	Temp28         float64 `json:"temp2_8"`
+	ChanRate6      string  `json:"chain_rate6"`
+	ChanRate7      string  `json:"chain_rate7"`
+	ChanRate8      string  `json:"chain_rate8"`
+	ChanIdealRate6 string  `json:"chain_rateideal6"`
+	ChanIdealRate7 string  `json:"chain_rateideal7"`
+	ChanIdealRate8 string  `json:"chain_rateideal8"`
 }
 
 type Devs struct {
