@@ -73,9 +73,9 @@ type Stats struct {
 	ChanRate6      string  `json:"chain_rate6"`
 	ChanRate7      string  `json:"chain_rate7"`
 	ChanRate8      string  `json:"chain_rate8"`
-	ChanIdealRate6 string  `json:"chain_rateideal6"`
-	ChanIdealRate7 string  `json:"chain_rateideal7"`
-	ChanIdealRate8 string  `json:"chain_rateideal8"`
+	ChanIdealRate6 float64 `json:"chain_rateideal6"`
+	ChanIdealRate7 float64 `json:"chain_rateideal7"`
+	ChanIdealRate8 float64 `json:"chain_rateideal8"`
 }
 
 type Devs struct {
