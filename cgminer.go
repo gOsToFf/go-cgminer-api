@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"time"
 )
 
 type CGMiner struct {
@@ -176,7 +177,7 @@ func New(hostname string, port int64) *CGMiner {
 }
 
 func (miner *CGMiner) runCommand(command, argument string) (string, error) {
-	conn, err := net.Dial("tcp", miner.server)
+	conn, err := net.DialTimeout("tcp", miner.server, 2*time.Second)
 	if err != nil {
 		return "", err
 	}
@@ -197,14 +198,18 @@ func (miner *CGMiner) runCommand(command, argument string) (string, error) {
 
 	requestBody, err := json.Marshal(request)
 	if err != nil {
+		_ = conn.Close()
 		return "", err
 	}
 
 	fmt.Fprintf(conn, "%s", requestBody)
 	result, err := bufio.NewReader(conn).ReadString('\x00')
 	if err != nil {
+		_ = conn.Close()
 		return "", err
 	}
+	_ = conn.Close()
+
 	return strings.TrimRight(result, "\x00"), nil
 }
 
