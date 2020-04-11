@@ -177,7 +177,7 @@ func New(hostname string, port int64) *CGMiner {
 }
 
 func (miner *CGMiner) runCommand(command, argument string) (string, error) {
-	conn, err := net.DialTimeout("tcp", miner.server, 2*time.Second)
+	conn, err := net.DialTimeout("tcp", miner.server, 5*time.Second)
 	if err != nil {
 		return "", err
 	}
@@ -209,6 +209,9 @@ func (miner *CGMiner) runCommand(command, argument string) (string, error) {
 		return "", err
 	}
 	_ = conn.Close()
+
+	result = strings.ReplaceAll(result, string('\n'), "")
+	result = strings.ReplaceAll(result, "}{", "},{")
 
 	return strings.TrimRight(result, "\x00"), nil
 }
