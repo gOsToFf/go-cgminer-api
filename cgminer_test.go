@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-const ipAddress = "10.2.2.158"
+const ipAddress = "10.1.2.111"
 
 // WARNING: These tests are currently terrible, and require a setup such as mine
 // (I'm connecting to a real cgminer instance running on a different machine).

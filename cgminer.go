@@ -65,12 +65,27 @@ type Stats struct {
 	Ghs5s          string  `json:"GHS 5s"`
 	Ghsav          float64 `json:"GHS av"`
 	Frequency      string  `json:"frequency"`
+	Temp1          float64
+	Temp2          float64
+	Temp3          float64
+	Temp4          float64
+	Temp5          float64
 	Temp6          float64
 	Temp7          float64
 	Temp8          float64
+	Temp21         float64 `json:"temp2_1"`
+	Temp22         float64 `json:"temp2_2"`
+	Temp23         float64 `json:"temp2_3"`
+	Temp24         float64 `json:"temp2_4"`
+	Temp25         float64 `json:"temp2_5"`
 	Temp26         float64 `json:"temp2_6"`
 	Temp27         float64 `json:"temp2_7"`
 	Temp28         float64 `json:"temp2_8"`
+	ChanRate1      string  `json:"chain_rate1"`
+	ChanRate2      string  `json:"chain_rate2"`
+	ChanRate3      string  `json:"chain_rate3"`
+	ChanRate4      string  `json:"chain_rate4"`
+	ChanRate5      string  `json:"chain_rate5"`
 	ChanRate6      string  `json:"chain_rate6"`
 	ChanRate7      string  `json:"chain_rate7"`
 	ChanRate8      string  `json:"chain_rate8"`
@@ -204,11 +219,10 @@ func (miner *CGMiner) runCommand(command, argument string) (string, error) {
 
 	fmt.Fprintf(conn, "%s", requestBody)
 	result, err := bufio.NewReader(conn).ReadString('\x00')
+	_ = conn.Close()
 	if err != nil {
-		_ = conn.Close()
 		return "", err
 	}
-	_ = conn.Close()
 
 	result = strings.ReplaceAll(result, string('\n'), "")
 	result = strings.ReplaceAll(result, "}{", "},{")
